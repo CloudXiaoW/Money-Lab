@@ -1,0 +1,68 @@
+project_id = "qcitzsvwnvbeztspkepf"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[functions.daily-quiz]
+verify_jwt = true
+
+[functions.evaluate-predictions]
+verify_jwt = false
+
+[functions.get-leaderboard]
+verify_jwt = false
+
+[functions.make-prediction]
+verify_jwt = false
+
+[functions.market-insights]
+verify_jwt = false
+
+[functions.asset-analyst]
+verify_jwt = false
+
+[functions.chat-analyst]
+verify_jwt = false
+
+[functions.market-news]
+verify_jwt = true
+
+[functions.admin-analytics]
+verify_jwt = true
+
+[functions.admin-get-users]
+verify_jwt = true
+
+[functions.admin-manage-user]
+verify_jwt = true
+
+[functions.finance-glossary]
+verify_jwt = false
+
+[functions.asset-prices]
+verify_jwt = true
+
+[functions.expert-panel]
+verify_jwt = false
+
+[functions.breaking-alerts]
+verify_jwt = true
+
+[functions.portfolio-analyzer]
+verify_jwt = true
+
+[functions.social-pulse]
+verify_jwt = false
+
+[functions.learning-content]
+verify_jwt = false
+
+[functions.create-welcome-notification]
+verify_jwt = true
+
+[functions.gemini-voice]
+verify_jwt = false

@@ -1,0 +1,216 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
+
+const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/onboarding");
+      }
+    };
+    checkUser();
+  }, [navigate]);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Check your email 📧",
+        description: "Password reset link has been sent to your email",
+      });
+      setIsForgotPassword(false);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to send reset email",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: "Welcome back! 🧪",
+          description: "Successfully logged in to Money Labs",
+        });
+        navigate("/onboarding");
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/onboarding`,
+          },
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: "Account created! 🎉",
+          description: "Welcome to Money Labs",
+        });
+        navigate("/onboarding");
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "An error occurred during authentication",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+            Money Labs 🧪
+          </h1>
+          <p className="text-muted-foreground">
+            Your financial experiments start here
+          </p>
+        </div>
+
+        <Card className="shadow-2xl border-border/50">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              {isForgotPassword ? "Reset Password" : isLogin ? "Welcome Back" : "Create Account"}
+            </CardTitle>
+            <CardDescription className="text-center">
+              {isForgotPassword
+                ? "Enter your email to receive a reset link"
+                : isLogin
+                ? "Login to continue your experiments"
+                : "Sign up to start experimenting"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={isForgotPassword ? handleForgotPassword : handleAuth} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="transition-all focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              {!isForgotPassword && (
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="transition-all focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+              )}
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : isForgotPassword ? (
+                  "Send Reset Link 📧"
+                ) : isLogin ? (
+                  "Login to Money Labs 🧪"
+                ) : (
+                  "Sign Up for Money Labs 🧪"
+                )}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-2">
+            {isForgotPassword ? (
+              <Button
+                variant="ghost"
+                onClick={() => setIsForgotPassword(false)}
+                className="w-full"
+              >
+                Back to login
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="w-full"
+                >
+                  {isLogin
+                    ? "Don't have an account? Sign up"
+                    : "Already have an account? Login"}
+                </Button>
+                {isLogin && (
+                  <Button
+                    variant="link"
+                    onClick={() => setIsForgotPassword(true)}
+                    className="text-sm text-muted-foreground"
+                  >
+                    Forgot password?
+                  </Button>
+                )}
+              </>
+            )}
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default Auth;
