@@ -322,8 +322,15 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 opacity-40">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(200_100%_60%_/_0.25),_transparent_55%),radial-gradient(circle_at_bottom,_hsl(268_83%_65%_/_0.25),_transparent_55%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px),linear-gradient(to_bottom,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px)] bg-[size:64px_64px]" />
+        </div>
+        <Loader2 className="h-10 w-10 animate-spin text-primary drop-shadow-[0_0_18px_hsl(200_100%_60%_/_0.6)]" />
+        <p className="text-xs md:text-sm text-muted-foreground relative">
+          Loading your GameFi console and live market data…
+        </p>
       </div>
     );
   }
@@ -352,13 +359,29 @@ const Dashboard = () => {
   const userBadges = userStats?.badges || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-accent/10">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background: cyber grid + glow */}
+      <div className="pointer-events-none absolute inset-0 opacity-40">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(200_100%_60%_/_0.25),_transparent_55%),radial-gradient(circle_at_bottom,_hsl(268_83%_65%_/_0.25),_transparent_55%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px),linear-gradient(to_bottom,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px)] bg-[size:64px_64px]" />
+      </div>
+
       {/* Header */}
-      <div className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Money Labs 🧪
-          </h1>
+      <div className="border-b bg-black/60 backdrop-blur-xl sticky top-0 z-20">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-[radial-gradient(circle_at_30%_0,_hsl(200_100%_70%),_transparent_60%),radial-gradient(circle_at_70%_100%,_hsl(268_83%_70%),_transparent_60%)] shadow-[0_0_18px_hsl(200_100%_60%_/_0.65)] flex items-center justify-center text-xl">
+              🧪
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold bg-[radial-gradient(circle_at_top,_hsl(200_100%_70%),_hsl(268_83%_70%))] bg-clip-text text-transparent leading-tight">
+                Money Labs
+              </h1>
+              <p className="text-[10px] md:text-xs text-muted-foreground/80 tracking-[0.18em] uppercase">
+                GameFi Prediction Console
+              </p>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
             <NotificationBell userId={user.id} />
             <Button variant="outline" size="sm" onClick={() => setExpertPanelOpen(true)}>
@@ -391,18 +414,29 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="relative container mx-auto px-4 py-8 max-w-7xl">
         {/* Welcome Message */}
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold">
-            Welcome back, {profile?.display_name || 'Investor'}! 👋
-          </h2>
-          <p className="text-muted-foreground">Ready to make some smart predictions?</p>
+        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+              <span className="text-primary">{getRiskEmoji(profile?.risk_profile)}</span>
+              <span>
+                Welcome back, {profile?.display_name || "Investor"}!
+              </span>
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              Ready to climb the leaderboard today? Keep your streak and unlock more badges.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground/80">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            Live predictions · AI analysis · Education mode (no real money)
+          </div>
         </div>
 
         {/* Stats Bar */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="shadow-lg border-border/50">
+          <Card className="glow-card">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -414,7 +448,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg border-border/50">
+          <Card className="glow-card">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -426,7 +460,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg border-border/50">
+          <Card className="glow-card">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -442,7 +476,7 @@ const Dashboard = () => {
         </div>
 
         {/* Daily Quiz Card */}
-        <Card className="shadow-lg border-border/50 mb-8 bg-gradient-to-r from-primary/5 to-accent/5">
+        <Card className="glow-card mb-8 bg-gradient-to-r from-primary/10 to-accent/10">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -551,7 +585,7 @@ const Dashboard = () => {
                 const hasPredictedToday = todaysPredictions.includes(asset);
 
                 return (
-                  <Card key={asset} className="shadow-xl border-border/50">
+                  <Card key={asset} className="glow-card">
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <CardTitle className="text-2xl">{asset}</CardTitle>
@@ -614,7 +648,7 @@ const Dashboard = () => {
         </div>
 
         {/* Achievement Badges */}
-        <Card className="shadow-xl border-border/50 mb-8">
+        <Card className="glow-card mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Award className="h-6 w-6 text-primary" />
@@ -651,7 +685,7 @@ const Dashboard = () => {
         </Card>
 
         {/* Leaderboard */}
-        <Card className="shadow-xl border-border/50">
+        <Card className="glow-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Trophy className="h-6 w-6 text-primary" />

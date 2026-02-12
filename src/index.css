@@ -8,40 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* GameFi neon theme (light mode) */
+    --background: 222 45% 7%;
+    --foreground: 210 40% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary: electric blue */
+    --primary: 200 100% 60%;
+    --primary-foreground: 210 40% 96%;
 
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary: cyber purple */
+    --secondary: 268 83% 65%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted neutral for secondary info */
+    --muted: 220 25% 15%;
+    --muted-foreground: 215 18% 70%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent: cyan neon */
+    --accent: 170 100% 60%;
+    --accent-foreground: 222 47% 9%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 60%;
+    --border: 220 20% 30%;
+    --input: 220 20% 30%;
+    --ring: 200 100% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.9rem;
     
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(230 89% 65%) 100%);
+    /* Neon gradients and shadows for buttons, cards, titles */
+    --gradient-primary: linear-gradient(135deg, hsl(200 100% 60%) 0%, hsl(268 83% 65%) 50%, hsl(170 100% 60%) 100%);
+    --gradient-hero: radial-gradient(circle at top, hsl(200 100% 60% / 0.4), transparent 55%),
+      radial-gradient(circle at bottom, hsl(268 83% 65% / 0.35), transparent 60%);
     
-    --shadow-elegant: 0 10px 40px -10px hsl(217 91% 60% / 0.2);
+    --shadow-elegant: 0 18px 45px -12px hsl(200 100% 60% / 0.35);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
@@ -62,41 +69,42 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Dark mode: stronger contrast and neon feel */
+    --background: 222 45% 5%;
+    --foreground: 210 40% 96%;
 
-    --card: 222 47% 11%;
+    --card: 222 47% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 200 100% 60%;
+    --primary-foreground: 210 40% 96%;
 
-    --secondary: 217 33% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 268 83% 65%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 25% 15%;
+    --muted-foreground: 215 18% 70%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 170 100% 60%;
+    --accent-foreground: 222 47% 9%;
 
-    --destructive: 0 63% 31%;
+    --destructive: 0 63% 40%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 217 91% 60%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 220 20% 30%;
+    --input: 220 20% 30%;
+    --ring: 200 100% 60%;
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 200 100% 60%;
+    --sidebar-primary-foreground: 222 47% 9%;
+    --sidebar-accent: 268 83% 30%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 40% 18%;
+    --sidebar-ring: 200 100% 60%;
   }
 }
 
@@ -108,5 +116,37 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Montserrat', sans-serif;
+    position: relative;
+    min-height: 100vh;
+    /* Subtle glow layers for GameFi feel */
+    background-image:
+      radial-gradient(circle at 0 0, hsl(200 100% 60% / 0.18), transparent 55%),
+      radial-gradient(circle at 100% 0, hsl(268 83% 65% / 0.18), transparent 55%),
+      radial-gradient(circle at 50% 100%, hsl(170 100% 60% / 0.16), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  /* Reusable glow card and button styles */
+  .glow-card {
+    box-shadow:
+      0 0 0 1px hsl(220 20% 30% / 0.7),
+      0 18px 45px -12px hsl(200 100% 60% / 0.28);
+    background: radial-gradient(circle at top left, hsl(200 100% 60% / 0.12), transparent 60%),
+      radial-gradient(circle at bottom right, hsl(268 83% 65% / 0.12), transparent 60%),
+      hsl(var(--card));
+    backdrop-filter: blur(18px);
+  }
+
+  .glow-button {
+    background-image: var(--gradient-primary);
+    box-shadow:
+      0 0 20px hsl(200 100% 60% / 0.4),
+      0 0 40px hsl(268 83% 65% / 0.35);
+    transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, filter 0.18s ease-out;
+  }
+
+  .glow-button:hover {
+    transform: translateY(-1px) scale(1.02);
+    filter: drop-shadow(0 0 25px hsl(200 100% 60% / 0.6));
   }
 }

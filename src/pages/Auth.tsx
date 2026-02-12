@@ -102,18 +102,25 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
-            Money Labs 🧪
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4">
+      {/* Neon grid + glow background */}
+      <div className="pointer-events-none absolute inset-0 opacity-40">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(200_100%_60%_/_0.25),_transparent_55%),radial-gradient(circle_at_bottom,_hsl(268_83%_65%_/_0.25),_transparent_55%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px),linear-gradient(to_bottom,_hsl(220_20%_20%_/_0.45)_1px,_transparent_1px)] bg-[size:64px_64px]" />
+      </div>
+
+      <div className="w-full max-w-md relative">
+        <div className="text-center mb-8 space-y-2">
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-[radial-gradient(circle_at_top,_hsl(200_100%_70%),_hsl(268_83%_70%))] bg-clip-text text-transparent drop-shadow-[0_0_22px_hsl(200_100%_60%_/_0.35)] mb-1">
+            Money Labs
+            <span className="ml-1 align-middle text-2xl">🧪</span>
           </h1>
-          <p className="text-muted-foreground">
-            Your financial experiments start here
+          <p className="text-sm md:text-base text-muted-foreground">
+            Sign in to your GameFi lab. Keep your prediction streak and unlock more achievements.
           </p>
         </div>
 
-        <Card className="shadow-2xl border-border/50">
+        <Card className="glow-card">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
               {isForgotPassword ? "Reset Password" : isLogin ? "Welcome Back" : "Create Account"}
@@ -157,7 +164,7 @@ const Auth = () => {
               )}
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg"
+                className="w-full glow-button rounded-full mt-2"
                 disabled={loading}
               >
                 {loading ? (
@@ -189,7 +196,7 @@ const Auth = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="w-full"
+                  className="w-full text-xs md:text-sm"
                 >
                   {isLogin
                     ? "Don't have an account? Sign up"
@@ -199,7 +206,7 @@ const Auth = () => {
                   <Button
                     variant="link"
                     onClick={() => setIsForgotPassword(true)}
-                    className="text-sm text-muted-foreground"
+                    className="text-xs md:text-sm text-muted-foreground"
                   >
                     Forgot password?
                   </Button>
@@ -208,6 +215,9 @@ const Auth = () => {
             )}
           </CardFooter>
         </Card>
+        <p className="mt-4 text-xs text-center text-muted-foreground/80">
+          For learning and simulation only. Not investment advice.
+        </p>
       </div>
     </div>
   );
